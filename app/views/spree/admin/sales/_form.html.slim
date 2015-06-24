@@ -1,0 +1,42 @@
+= simple_form_for [:admin, sale] do |f|
+  .row
+    .col-md-12
+      = f.input :name
+  .row
+    .col-md-12
+      = f.input :description
+  .row
+    .col-md-6
+      = f.input :start_date, as: :string, input_html: { class: 'datepicker', value: datepicker_field_value(@sale.start_date) }
+    .col-md-6
+      = f.input :end_date, as: :string, input_html: { class: 'datepicker', value: datepicker_field_value(@sale.end_date) }
+  .row
+    .col-md-6
+      = f.input :sale_type
+    .col-md-6
+      = f.input :amount
+
+  .row
+    .col-md-6
+      = f.label :taxon_ids, 'Taxons'
+      = f.hidden_field :taxon_ids, value: @sale.taxon_ids.join(',')
+        - if @sale.taxons.any?
+          ul.text_list
+            - sale.taxons.each do |taxon|
+             li = taxon.name
+        - else
+          .alert.alert-info = Spree.t(:no_resource_found, resource: :taxons)
+
+    .col-md-6
+      = f.label :product_ids, 'Products'
+      = f.hidden_field :product_ids, value: @sale.product_ids.join(','), class: 'product_picker'
+
+  .row
+    .col-md-6
+      = f.label :user_ids, 'Users'
+      = f.hidden_field :user_ids, value: @sale.user_ids.join(','), class: 'user_picker'
+
+  - if sale.persisted?
+    = render 'spree/admin/shared/edit_resource_links'
+  - else
+    = render 'spree/admin/shared/new_resource_links'

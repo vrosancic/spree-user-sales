@@ -4,7 +4,8 @@ class CreateSpreeProductSales < ActiveRecord::Migration
       t.integer :product_id
       t.integer :user_id
       t.integer :sale_id
-      t.boolean :active, default: false
+      t.date :start_date
+      t.date :end_date
 
       t.timestamps null: false
     end
