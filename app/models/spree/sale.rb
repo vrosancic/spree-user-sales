@@ -1,11 +1,15 @@
 module Spree
   class Sale < ActiveRecord::Base
-    has_many :product_sales
+    has_many :product_sales, dependent: :destroy
 
-    has_many :taxons, class_name: 'Spree::SaleTaxon'
-    has_many :products, class_name: 'Spree::SaleProduct'
-    has_many :user_groups, class_name: 'Spree::SaleUserGroup'
-    has_many :users, class_name: 'Spree::SaleUser'
+    has_many :sale_taxons, dependent: :destroy
+    has_many :taxons, through: :sale_taxons
+    has_many :sale_products, dependent: :destroy
+    has_many :products, through: :sale_products
+    has_many :sale_user_groups, dependent: :destroy
+    has_many :user_groups, through: :sale_user_groups
+    has_many :sale_users, dependent: :destroy
+    has_many :users, through: :sale_users
 
     accepts_nested_attributes_for :taxons, allow_destroy: true
     accepts_nested_attributes_for :products, allow_destroy: true

@@ -12,7 +12,7 @@
       = f.input :end_date, as: :string, input_html: { class: 'datepicker', value: datepicker_field_value(@sale.end_date) }
   .row
     .col-md-6
-      = f.input :sale_type
+      = f.input :sale_type, collection: Spree::Sale.sale_types.keys.map {|sale| [sale.titleize, sale]}
     .col-md-6
       = f.input :amount
 
