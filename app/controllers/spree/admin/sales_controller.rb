@@ -40,7 +40,7 @@ module Spree
       end
 
       def prepare_array_params
-        [:taxon_ids, :product_ids, :user_ids].each do |key|
+        [:taxon_ids, :product_ids, :user_group_ids, :user_ids].each do |key|
           if params[:sale][key].present?
             params[:sale][key] = params[:sale][key].split(',')
           else
