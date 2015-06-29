@@ -12,11 +12,14 @@ class SaleCreator
 
   def create
     if can_be_created?
-      put_products_on_sale if save_sale
+      if products.any?
+        put_products_on_sale if save_sale
+      else
+        sale.errors.add(:base, "You must specify at least one taxon or product.")
+      end
     else
       sale.errors.add(:base, "Some of selected products in that date range are already on sale.")
     end
-
     sale
   end
 
@@ -41,7 +44,6 @@ class SaleCreator
 
   def put_products_on_sale
     Spree::ProductSale.destroy_all(sale: sale) if sale.persisted?
-
     products.each do |product|
       if users.nil?
         product.product_sales.create(sale: sale, user: nil, start_date: sale.start_date, end_date: sale.end_date)
@@ -73,9 +75,10 @@ class SaleCreator
   def set_users
     user_ids = []
     user_ids.concat sale_params[:user_ids]
-    # if sale_params[:user_group_ids].any?
-    #   user_ids.concat User.where(group_id: sale_params[:user_group_ids])
-    # end
-    User.where(id: user_ids)
+    if sale_params[:user_group_ids].any?
+      user_ids.concat UserGroupMembership.where(user_group_id: sale_params[:user_group_ids]).pluck(:user_id)
+    end
+    users = User.where(id: user_ids)
+    users.any? ? users : nil
   end
 end

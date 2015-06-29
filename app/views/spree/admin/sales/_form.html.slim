@@ -33,7 +33,7 @@
 
   .row
     .col-md-6
-      = f.label :user_group_ids, 'Products'
+      = f.label :user_group_ids, 'User groups'
       = f.hidden_field :user_group_ids, value: @sale.user_group_ids.join(','), class: 'user_group_picker'
 
     .col-md-6
