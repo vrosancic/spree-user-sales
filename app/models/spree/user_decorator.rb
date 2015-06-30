@@ -1,4 +1,4 @@
-User.class_eval do
+Spree::User.class_eval do
   def self.current
     Thread.current[:user]
   end

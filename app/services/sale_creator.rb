@@ -76,9 +76,9 @@ class SaleCreator
     user_ids = []
     user_ids.concat sale_params[:user_ids]
     if sale_params[:user_group_ids].any?
-      user_ids.concat UserGroupMembership.where(user_group_id: sale_params[:user_group_ids]).pluck(:user_id)
+      user_ids.concat Spree::UserGroupMembership.where(user_group_id: sale_params[:user_group_ids]).pluck(:user_id)
     end
-    users = User.where(id: user_ids)
+    users = Spree::User.where(id: user_ids)
     users.any? ? users : nil
   end
 end

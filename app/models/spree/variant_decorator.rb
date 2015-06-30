@@ -11,7 +11,7 @@ Spree::Variant.class_eval do
   end
 
   def count_sale_price
-    product_sale = product.active_sale(User.current)
+    product_sale = product.active_sale(Spree::User.current)
     return nil if product_sale.nil?
 
     if product_sale.sale.percent?
