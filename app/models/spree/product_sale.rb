@@ -6,6 +6,6 @@ module Spree
 
     validates_presence_of :product_id, :sale_id
 
-    scope :active, -> { where("? >= start_date AND ? < end_date", Time.zone.now, Time.zone.now) }
+    scope :active, -> { where("? >= start_date AND (end_date IS NULL OR ? < end_date)", Time.zone.now, Time.zone.now) }
   end
 end
