@@ -1,23 +1,23 @@
 = simple_form_for [:admin, sale] do |f|
   .row
     .col-md-12
-      = f.input :name
+      = f.input :name, input_html: { class: 'with-tip', title: t('admin.tooltips.sales_name') }
   .row
     .col-md-12
-      = f.input :description
+      = f.input :description, input_html: { class: 'with-tip', title: t('admin.tooltips.sales_description') }
   .row
     .col-md-6
-      = f.input :start_date, as: :string, input_html: { class: 'datepicker', value: datepicker_field_value(@sale.start_date) }
+      = f.input :start_date, as: :string, input_html: { class: 'datepicker with-tip', title: t('admin.tooltips.sales_start_date'), value: datepicker_field_value(@sale.start_date) }
     .col-md-6
-      = f.input :end_date, as: :string, input_html: { class: 'datepicker', value: datepicker_field_value(@sale.end_date) }
+      = f.input :end_date, as: :string, input_html: { class: 'datepicker with-tip', title: t('admin.tooltips.sales_end_date'), value: datepicker_field_value(@sale.end_date) }
   .row
     .col-md-6
-      = f.input :sale_type, collection: Spree::Sale.sale_types.keys.map {|sale| [sale.titleize, sale]}
+      = f.input :sale_type, input_html: { class: 'with-tip', title: t('admin.tooltips.sales_sale_type') }, collection: Spree::Sale.sale_types.keys.map {|sale| [sale.titleize, sale]}
     .col-md-6
-      = f.input :amount
+      = f.input :amount, input_html: { class: 'with-tip', title: t('admin.tooltips.sales_amount') }
 
   .row
-    .col-md-6
+    .col-md-6 class='with-tip' data-original-title= t('admin.tooltips.sales_taxon')
       = f.label :taxon_ids, 'Taxons'
       = f.hidden_field :taxon_ids, value: @sale.taxon_ids.join(',')
         - if @sale.taxons.any?
@@ -27,16 +27,16 @@
         - else
           .alert.alert-info = Spree.t(:no_resource_found, resource: :taxons)
 
-    .col-md-6
+    .col-md-6 class='with-tip' data-original-title= t('admin.tooltips.sales_products')
       = f.label :product_ids, 'Products'
       = f.hidden_field :product_ids, value: @sale.product_ids.join(','), class: 'product_picker'
 
   .row
-    .col-md-6
+    .col-md-6 class='with-tip' data-original-title= t('admin.tooltips.sales_user_groups')
       = f.label :user_group_ids, 'User groups'
       = f.hidden_field :user_group_ids, value: @sale.user_group_ids.join(','), class: 'user_group_picker'
 
-    .col-md-6
+    .col-md-6 class='with-tip' data-original-title= t('admin.tooltips.sales_users')
       = f.label :user_ids, 'Users'
       = f.hidden_field :user_ids, value: @sale.user_ids.join(','), class: 'user_picker'
 
