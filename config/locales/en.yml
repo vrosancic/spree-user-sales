@@ -3,3 +3,16 @@
 
 en:
   hello: "Hello world"
+
+  admin:
+    tooltips:
+      sales_name: 'No description'
+      sales_description: 'No description'
+      sales_start_date: 'No description'
+      sales_end_date: 'No description'
+      sales_sale_type: 'No description'
+      sales_amount: 'No description'
+      sales_taxon: 'No description'
+      sales_products: 'No description'
+      sales_user_groups: 'No description'
+      sales_users: 'No description'
