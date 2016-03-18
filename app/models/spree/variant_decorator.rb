@@ -1,4 +1,7 @@
 Spree::Variant.class_eval do
+  has_many :variant_sales
+  has_many :sales, through: :variant_sales
+
   def price_in(currency)
     return sale_price_in(currency) if sale_price
     prices.select{ |price| price.currency == currency }.first || Spree::Price.new(variant_id: self.id, currency: currency)
@@ -9,17 +12,26 @@ Spree::Variant.class_eval do
   end
 
   def sale_price
-    @sale_price ||= count_sale_price
+    @sale_price ||= begin
+      return if active_sale.nil?
+
+      if active_sale.sale.percent?
+        price - (price * active_sale.sale.amount / 100.0)
+      else
+        price - active_sale.sale.amount
+      end
+    end
   end
 
-  def count_sale_price
-    product_sale = product.active_sale(Spree::User.current)
-    return nil if product_sale.nil?
+  def on_sale?(user = nil)
+    active_sale(user).present?
+  end
 
-    if product_sale.sale.percent?
-      return price - (price * product_sale.sale.amount / 100.0)
-    else
-      return price - product_sale.sale.amount
-    end
+  def active_sale(user = Spree::User.current)
+    @active_sale ||= if user && variant_sales.active.exists?(user: user)
+                       variant_sales.active.where(user: user).first
+                     else
+                       variant_sales.active.where(user: nil).first
+                     end
   end
 end

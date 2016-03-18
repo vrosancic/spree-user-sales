@@ -35,12 +35,12 @@ module Spree
       def sale_params
         params.require(:sale).permit(:name, :description, :amount, :sale_type,
                                      :start_date, :end_date,
-                                     taxon_ids: [], product_ids: [],
+                                     taxon_ids: [], product_ids: [], variant_ids: [],
                                      user_group_ids: [], user_ids: [])
       end
 
       def prepare_array_params
-        [:taxon_ids, :product_ids, :user_group_ids, :user_ids].each do |key|
+        [:taxon_ids, :product_ids, :user_group_ids, :user_ids, :variant_ids].each do |key|
           if params[:sale][key].present?
             params[:sale][key] = params[:sale][key].split(',')
           else

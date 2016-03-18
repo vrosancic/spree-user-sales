@@ -14,5 +14,6 @@ en:
       sales_amount: 'No description'
       sales_taxon: 'No description'
       sales_products: 'No description'
+      sales_variants: 'No description'
       sales_user_groups: 'No description'
       sales_users: 'No description'

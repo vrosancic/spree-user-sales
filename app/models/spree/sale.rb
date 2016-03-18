@@ -1,6 +1,6 @@
 module Spree
   class Sale < ActiveRecord::Base
-    has_many :product_sales, dependent: :destroy
+    has_many :variant_sales, dependent: :destroy
 
     has_many :sale_taxons, dependent: :destroy
     has_many :taxons, through: :sale_taxons
@@ -10,11 +10,8 @@ module Spree
     has_many :user_groups, through: :sale_user_groups
     has_many :sale_users, dependent: :destroy
     has_many :users, through: :sale_users
-
-    accepts_nested_attributes_for :taxons, allow_destroy: true
-    accepts_nested_attributes_for :products, allow_destroy: true
-    accepts_nested_attributes_for :user_groups, allow_destroy: true
-    accepts_nested_attributes_for :users, allow_destroy: true
+    has_many :sale_variants, dependent: :destroy
+    has_many :variants, through: :sale_variants
 
     enum sale_type: [:percent, :fixed]
 
