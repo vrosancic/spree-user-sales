@@ -7,7 +7,12 @@ class SaleCreator
 
   def initialize(sale_params, existing_sale)
     @sale_params = sale_params
-    @sale = existing_sale.nil? ? Spree::Sale.new(sale_params) : existing_sale
+    @sale = if existing_sale.nil?
+              Spree::Sale.new(sale_params)
+            else
+              existing_sale.assign_attributes(sale_params)
+              existing_sale
+            end
   end
 
   def create
