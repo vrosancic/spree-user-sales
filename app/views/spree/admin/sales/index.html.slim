@@ -8,11 +8,15 @@
     thead
       tr
         th Name
+        th Starts at
+        th Ends at
         th.actions
     tbody
       - @sales.each do |sale|
         tr id="#{ spree_dom_id sale }" class="#{ cycle('odd', 'even') }"
             td = link_to sale.name, edit_admin_sale_path(sale)
+            td = sale.start_date
+            td = sale.end_date
             td.actions.actions-2.text-right
               = link_to_edit sale, no_text: true, class: 'edit' if can?(:edit, sale)
               = link_to_delete sale, no_text: true if can?(:delete, sale)
