@@ -4,7 +4,7 @@ module Spree
       before_action :prepare_array_params, only: [:create, :update]
 
       def index
-        @sales = Spree::Sale.all
+        @sales = Spree::Sale.all.order('start_date desc')
       end
 
       def new
