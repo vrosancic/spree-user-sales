@@ -16,11 +16,18 @@ module Spree
     enum sale_type: [:percent, :fixed]
 
     validates_presence_of :name, :start_date, :amount, :sale_type
+    validates :end_date_greater_than_start_date?
 
     def active?
       return false if Time.zone.now < start_date
       return false if end_date && Time.zone.now > end_date
       true
+    end
+
+    def end_date_greater_than_start_date?
+      return if end_date.blank? || end_date > start_date
+
+      errors.add(:end_date, 'must be greater than start date')
     end
   end
 end
